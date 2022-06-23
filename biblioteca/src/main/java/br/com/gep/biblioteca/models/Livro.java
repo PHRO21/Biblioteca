@@ -18,7 +18,7 @@ public class Livro {
 	@NotNull
 	private String titulo;
 	@NotNull
-	private int anoLancamento;
+	private String anoLancamento;
 	@NotNull
 	@ManyToOne
 	private Autor autor;
@@ -26,7 +26,7 @@ public class Livro {
 	public Livro() {
 	}
 
-	public Livro(@NotNull String titulo, @NotNull int anoLancamento, @NotNull Autor autor) {
+	public Livro(@NotNull String titulo, @NotNull String anoLancamento, @NotNull Autor autor) {
 		this.titulo = titulo;
 		this.anoLancamento = anoLancamento;
 		this.autor = autor;
@@ -44,11 +44,11 @@ public class Livro {
 		this.titulo = titulo;
 	}
 
-	public int getAnoLancamento() {
+	public String getAnoLancamento() {
 		return anoLancamento;
 	}
 
-	public void setAnoLancamento(int anoLancamento) {
+	public void setAnoLancamento(String anoLancamento) {
 		this.anoLancamento = anoLancamento;
 	}
 
