@@ -23,6 +23,15 @@ public class Livro {
 	@ManyToOne
 	private Autor autor;
 
+	public Livro() {
+	}
+
+	public Livro(@NotNull String titulo, @NotNull int anoLancamento, @NotNull Autor autor) {
+		this.titulo = titulo;
+		this.anoLancamento = anoLancamento;
+		this.autor = autor;
+	}
+
 	public Long getId() {
 		return id;
 	}

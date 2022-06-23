@@ -19,6 +19,15 @@ public class Autor {
 	@NotNull
 	private String biografia;
 
+	public Autor() {
+		
+	}
+
+	public Autor(@NotNull String nome, @NotNull String biografia) {
+		this.nome = nome;
+		this.biografia = biografia;
+	}
+
 	public Long getId() {
 		return id;
 	}

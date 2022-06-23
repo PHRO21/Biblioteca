@@ -9,6 +9,11 @@ public class AutorOutput {
 	private String nome;
 	private String biografia;
 	
+	public AutorOutput() {
+		
+	}
+
+	
 	public AutorOutput(Autor autor) {
 		this.id = autor.getId();
 		this.nome = autor.getNome();
