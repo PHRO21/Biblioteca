@@ -3,6 +3,8 @@ package br.com.gep.biblioteca.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.gep.biblioteca.inputs.AutorInput;
 import br.com.gep.biblioteca.models.Autor;
 import br.com.gep.biblioteca.outputs.AutorOutput;
 import br.com.gep.biblioteca.repositories.AutorRepository;
@@ -27,7 +30,7 @@ public class AutorController {
 	private AutorService autorService;
 	
 	@PostMapping
-	public void cadastrarAutor(@RequestBody AutorOutput autorIntput) {
+	public void cadastraAutor(@RequestBody AutorOutput autorIntput) {
 		Autor autor = autorService.coverterInput(autorIntput);
 		autorRepository.save(autor);
 	}
@@ -40,14 +43,16 @@ public class AutorController {
 	}
 	
 	@GetMapping("/{id}")
-	public Optional<Autor> buscaPeloId(@PathVariable Long id) {
+	public Optional<Autor> buscaAutorPeloId(@PathVariable Long id) {
 		return autorRepository.findById(id);
 	}
 	
 	@PutMapping("/{id}")
-	public void alteraAutor(@PathVariable Long id) {
-		Optional<Autor> autorInput = autorRepository.findById(id);
-		
+	@Transactional
+	public Autor alteraAutor(@PathVariable Long id, @RequestBody AutorInput input) {
+		Autor autor = input.atualizar(id, autorRepository);
+			
+		return autor;
 	}
 	
 }

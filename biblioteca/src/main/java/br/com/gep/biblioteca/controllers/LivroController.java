@@ -3,6 +3,8 @@ package br.com.gep.biblioteca.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.gep.biblioteca.inputs.LivroInput;
-import br.com.gep.biblioteca.models.Autor;
 import br.com.gep.biblioteca.models.Livro;
 import br.com.gep.biblioteca.outputs.LivroOutput;
 import br.com.gep.biblioteca.repositories.LivroRepository;
@@ -29,27 +30,29 @@ public class LivroController {
 	private LivroService livroService;
 	
 	@PostMapping
-	public void cadastrarAutor(@RequestBody LivroInput livroInput) {
+	public void cadastrarLivro(@RequestBody LivroInput livroInput) {
 		Livro livro = livroService.coverterInput(livroInput);
 		livroRepository.save(livro);
 	}
 	
 	@GetMapping
-	public List<LivroOutput> listaTodosAutores() {
+	public List<LivroOutput> listaTodosLivros() {
 		List<Livro> listalivros = livroRepository.findAll();
 		
 		return livroService.converterLista(listalivros);
 	}
 	
 	@GetMapping("/{id}")
-	public Optional<Livro> buscaPeloId(@PathVariable Long id) {
+	public Optional<Livro> buscaLivroPeloId(@PathVariable Long id) {
 		return livroRepository.findById(id);
 	}
 	
 	@PutMapping("/{id}")
-	public void alteraAutor(@PathVariable Long id, @RequestBody Livro livro) {
-		Optional<Livro> livroInput = livroRepository.findById(id);
+	@Transactional
+	public Livro alteraLivro(@PathVariable Long id, @RequestBody LivroInput livroInput) {
+		Livro livro = livroInput.atualizar(id, livroRepository);
 		
+		return livro;
 	}
 	
 }
