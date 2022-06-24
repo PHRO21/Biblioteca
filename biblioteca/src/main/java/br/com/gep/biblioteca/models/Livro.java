@@ -1,10 +1,12 @@
 package br.com.gep.biblioteca.models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -20,17 +22,8 @@ public class Livro {
 	@NotNull
 	private String anoLancamento;
 	@NotNull
-	@ManyToOne
-	private Autor autor;
-
-	public Livro() {
-	}
-
-	public Livro(@NotNull String titulo, @NotNull String anoLancamento, @NotNull Autor autor) {
-		this.titulo = titulo;
-		this.anoLancamento = anoLancamento;
-		this.autor = autor;
-	}
+	@ManyToMany
+	private List<Autor> autores;
 
 	public Long getId() {
 		return id;
@@ -52,13 +45,12 @@ public class Livro {
 		this.anoLancamento = anoLancamento;
 	}
 
-	public Autor getAutor() {
-		return autor;
+	public List<Autor> getAutores() {
+		return autores;
 	}
 
-	public void setAutor(Autor autor) {
-		this.autor = autor;
+	public void setAutores(List<Autor> autores) {
+		this.autores = autores;
 	}
-	
 
 }

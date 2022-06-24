@@ -17,6 +17,14 @@ public class AutorInput {
 		this.biografia = biografia;
 	}
 
+	public String getNome() {
+		return nome;
+	}
+
+	public String getBiografia() {
+		return biografia;
+	}
+	
 	public Autor atualizar(Long id, AutorRepository autorRepository) {
 		Autor autor = autorRepository.findById(id).get();
 		autor.setNome(this.nome);

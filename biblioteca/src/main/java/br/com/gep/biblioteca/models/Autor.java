@@ -23,7 +23,7 @@ public class Autor {
 		
 	}
 
-	public Autor(@NotNull String nome, @NotNull String biografia) {
+	public Autor(String nome, String biografia) {
 		this.nome = nome;
 		this.biografia = biografia;
 	}

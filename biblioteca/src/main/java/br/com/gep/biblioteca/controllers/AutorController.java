@@ -30,8 +30,8 @@ public class AutorController {
 	private AutorService autorService;
 	
 	@PostMapping
-	public void cadastraAutor(@RequestBody AutorOutput autorIntput) {
-		Autor autor = autorService.coverterInput(autorIntput);
+	public void cadastraAutor(@RequestBody AutorInput autorInput) {
+		Autor autor = autorService.coverterInput(autorInput);
 		autorRepository.save(autor);
 	}
 	
