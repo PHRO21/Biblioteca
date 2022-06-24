@@ -25,6 +25,12 @@ public class Livro {
 	@ManyToMany
 	private List<Autor> autores;
 
+	public Livro( String titulo,  String anoLancamento, List<Autor> autores) {
+		this.titulo = titulo;
+		this.anoLancamento = anoLancamento;
+		this.autores = autores;
+	}
+
 	public Long getId() {
 		return id;
 	}

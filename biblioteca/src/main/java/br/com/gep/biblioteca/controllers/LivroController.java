@@ -50,7 +50,7 @@ public class LivroController {
 	@PutMapping("/{id}")
 	@Transactional
 	public Livro alteraLivro(@PathVariable Long id, @RequestBody LivroInput livroInput) {
-		Livro livro = livroInput.atualizar(id, livroRepository);
+		Livro livro = livroInput.atualizar(id, livroRepository, livroService);
 		
 		return livro;
 	}
