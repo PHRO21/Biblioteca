@@ -25,6 +25,9 @@ public class Livro {
 	@ManyToMany
 	private List<Autor> autores;
 
+	public Livro() {
+	}
+
 	public Livro( String titulo,  String anoLancamento, List<Autor> autores) {
 		this.titulo = titulo;
 		this.anoLancamento = anoLancamento;

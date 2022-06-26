@@ -11,6 +11,9 @@ public class LivroInput {
 	private String titulo;
 	private String anoLancamento;
 	private List<Long> idsAutores;
+	
+	public LivroInput() {
+	}
 
 	public LivroInput(Livro livro) {
 		this.titulo = livro.getTitulo();

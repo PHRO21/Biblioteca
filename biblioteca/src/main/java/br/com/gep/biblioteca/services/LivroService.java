@@ -12,7 +12,6 @@ import br.com.gep.biblioteca.models.Autor;
 import br.com.gep.biblioteca.models.Livro;
 import br.com.gep.biblioteca.outputs.LivroOutput;
 import br.com.gep.biblioteca.repositories.AutorRepository;
-import br.com.gep.biblioteca.repositories.LivroRepository;
 
 @Service
 public class LivroService {

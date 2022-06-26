@@ -7,23 +7,17 @@ import br.com.gep.biblioteca.models.Livro;
 
 public class LivroOutput {
 	
-	private Long id;
 	private String titulo;
 	private String anoLancamento;
-	private List<Autor> autor;
+	private List<Autor> autores;
 	
 	public LivroOutput() {
 	}
 	
 	public LivroOutput(Livro livro) {
-		this.id = livro.getId();
 		this.titulo = livro.getTitulo();
 		this.anoLancamento = livro.getAnoLancamento();
-		this.autor = livro.getAutores();
-	}
-
-	public Long getId() {
-		return id;
+		this.autores = livro.getAutores();
 	}
 
 	public String getTitulo() {
@@ -35,7 +29,7 @@ public class LivroOutput {
 	}
 
 	public List<Autor> getAutores() {
-		return autor;
+		return autores;
 	}
 
 	
