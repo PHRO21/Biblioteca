@@ -55,13 +55,7 @@ public class LivroController {
 	@PutMapping("/{id}")
 	@Transactional
 	public void alteraLivro(@PathVariable @Valid Long id, @RequestBody @Valid LivroInput livroInput) throws SQLException {
-		if(livroRepository.findById(id).isPresent()) {
 			livroInput.atualizar(id, livroRepository, livroService);
-		}else {
-			throw new SQLException();
-		}
-		
-		
 	}
 	
 	@DeleteMapping("/{id}")
@@ -71,12 +65,8 @@ public class LivroController {
 	
 	@GetMapping("/autor/{id}")
 	public List<LivroOutput> buscaLivrosPorAutor(@PathVariable @Valid Long id) throws NotFoundException{
-		if(!livroRepository.findByAutoresId(id).isEmpty()) {
 			List<LivroOutput> livrosDoAutor = livroService.converterListaToOutput(livroRepository.findByAutoresId(id));
 			return livrosDoAutor;	
-		}else {
-			throw new NotFoundException();
-		}
 	}
 	
 }

@@ -20,7 +20,7 @@ public class ErroDeValidacaoHandler {
 	private MessageSource messageSource;
 	
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
-	@ExceptionHandler
+	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public List<ErroValidacaoOutput> handleNotValid(MethodArgumentNotValidException exception){
 		List<ErroValidacaoOutput> output = new ArrayList<>();
 		
@@ -34,5 +34,4 @@ public class ErroDeValidacaoHandler {
 		});
 		return output;
 	}
-	
 }
