@@ -1,11 +1,13 @@
 package br.com.gep.biblioteca.controllers;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,8 +54,13 @@ public class LivroController {
 	
 	@PutMapping("/{id}")
 	@Transactional
-	public void alteraLivro(@PathVariable @Valid Long id, @RequestBody @Valid LivroInput livroInput) {
-		livroInput.atualizar(id, livroRepository, livroService);
+	public void alteraLivro(@PathVariable @Valid Long id, @RequestBody @Valid LivroInput livroInput) throws SQLException {
+		if(livroRepository.findById(id).isPresent()) {
+			livroInput.atualizar(id, livroRepository, livroService);
+		}else {
+			throw new SQLException();
+		}
+		
 		
 	}
 	
@@ -63,9 +70,13 @@ public class LivroController {
 	}
 	
 	@GetMapping("/autor/{id}")
-	public List<LivroOutput> buscaLivrosPorAutor(@PathVariable @Valid Long id){
-		List<LivroOutput> livrosDoAutor = livroService.converterListaToOutput(livroRepository.findByAutoresId(id));
-		return livrosDoAutor;
+	public List<LivroOutput> buscaLivrosPorAutor(@PathVariable @Valid Long id) throws NotFoundException{
+		if(!livroRepository.findByAutoresId(id).isEmpty()) {
+			List<LivroOutput> livrosDoAutor = livroService.converterListaToOutput(livroRepository.findByAutoresId(id));
+			return livrosDoAutor;	
+		}else {
+			throw new NotFoundException();
+		}
 	}
 	
 }
