@@ -1,9 +1,9 @@
 package br.com.gep.biblioteca.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +31,7 @@ public class LivroController {
 	private LivroService livroService;
 	
 	@PostMapping
-	public void cadastrarLivro(@RequestBody LivroInput livroInput) {
+	public void cadastrarLivro(@RequestBody @Valid LivroInput livroInput) {
 		Livro livro = livroService.coverterInput(livroInput);
 		livroRepository.save(livro);
 	}
@@ -40,30 +40,31 @@ public class LivroController {
 	public List<LivroOutput> listaTodosLivros() {
 		List<Livro> listalivros = livroRepository.findAll();
 		
-		return livroService.converterLista(listalivros);
+		return livroService.converterListaToOutput(listalivros);
 	}
 	
 	@GetMapping("/{id}")
-	public Optional<Livro> buscaLivroPeloId(@PathVariable Long id) {
-		return livroRepository.findById(id);
+	public LivroOutput buscaLivroPeloId(@PathVariable @Valid Long id) {
+		LivroOutput livroOutput = livroService.entityToOutput(livroRepository.findById(id).get());
+		
+		return livroOutput;
 	}
 	
 	@PutMapping("/{id}")
 	@Transactional
-	public Livro alteraLivro(@PathVariable Long id, @RequestBody LivroInput livroInput) {
-		Livro livro = livroInput.atualizar(id, livroRepository, livroService);
+	public void alteraLivro(@PathVariable @Valid Long id, @RequestBody @Valid LivroInput livroInput) {
+		livroInput.atualizar(id, livroRepository, livroService);
 		
-		return livro;
 	}
 	
 	@DeleteMapping("/{id}")
-	public void deletaLivro(@PathVariable Long id) {
+	public void deletaLivro(@PathVariable @Valid Long id) {
 		livroRepository.deleteById(id);
 	}
 	
 	@GetMapping("/autor/{id}")
-	public List<Livro> buscaLivrosPorAutor(@PathVariable Long id){
-		List<Livro> livrosDoAutor = livroRepository.findByAutoresId(id);
+	public List<LivroOutput> buscaLivrosPorAutor(@PathVariable @Valid Long id){
+		List<LivroOutput> livrosDoAutor = livroService.converterListaToOutput(livroRepository.findByAutoresId(id));
 		return livrosDoAutor;
 	}
 	

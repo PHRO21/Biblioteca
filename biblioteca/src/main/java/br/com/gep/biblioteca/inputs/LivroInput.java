@@ -2,13 +2,19 @@ package br.com.gep.biblioteca.inputs;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 import br.com.gep.biblioteca.models.Livro;
 import br.com.gep.biblioteca.repositories.LivroRepository;
 import br.com.gep.biblioteca.services.LivroService;
 
 public class LivroInput {
-
+	
+	@NotNull @Length(min = 2)
 	private String titulo;
+	@NotNull @Length(min = 4, max = 4)
 	private String anoLancamento;
 	private List<Long> idsAutores;
 	

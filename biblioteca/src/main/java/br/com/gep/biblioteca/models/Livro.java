@@ -10,6 +10,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+
 @Entity
 @Table(name = "livros")
 public class Livro {
@@ -17,9 +19,9 @@ public class Livro {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@NotNull
+	@NotNull @Length(min = 2)
 	private String titulo;
-	@NotNull
+	@NotNull @Length(min = 4, max = 4)
 	private String anoLancamento;
 	@NotNull
 	@ManyToMany

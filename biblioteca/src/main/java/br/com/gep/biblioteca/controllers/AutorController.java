@@ -1,9 +1,9 @@
 package br.com.gep.biblioteca.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,9 +30,13 @@ public class AutorController {
 	private AutorService autorService;
 	
 	@PostMapping
-	public void cadastraAutor(@RequestBody AutorInput autorInput) {
-		Autor autor = autorService.coverterInput(autorInput);
-		autorRepository.save(autor);
+	public void cadastraAutor(@RequestBody @Valid AutorInput autorInput) {
+		try {
+			Autor autor = autorService.coverterInput(autorInput);
+			autorRepository.save(autor);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@GetMapping
@@ -43,13 +47,15 @@ public class AutorController {
 	}
 	
 	@GetMapping("/{id}")
-	public Optional<Autor> buscaAutorPeloId(@PathVariable Long id) {
-		return autorRepository.findById(id);
+	public AutorOutput buscaAutorPeloId(@PathVariable @Valid Long id) {
+		AutorOutput autorOutput = autorService.entityToOutput(autorRepository.findById(id).get());
+		
+		return autorOutput;
 	}
 	
 	@PutMapping("/{id}")
 	@Transactional
-	public Autor alteraAutor(@PathVariable Long id, @RequestBody AutorInput input) {
+	public Autor alteraAutor(@PathVariable @Valid Long id, @RequestBody @Valid AutorInput input) {
 		Autor autor = input.atualizar(id, autorRepository);
 			
 		return autor;

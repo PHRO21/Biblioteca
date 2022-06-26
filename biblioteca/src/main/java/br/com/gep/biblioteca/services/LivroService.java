@@ -19,7 +19,7 @@ public class LivroService {
 	@Autowired
 	private AutorRepository autorRepository;
 
-	public List<LivroOutput> converterLista(List<Livro> livros){
+	public List<LivroOutput> converterListaToOutput(List<Livro> livros){
 		return livros.stream().map(LivroOutput::new).collect(Collectors.toList());
 	}
 
@@ -36,6 +36,11 @@ public class LivroService {
 			autores.add(autorEncontrado);
 		}
 		return autores;
+	}
+
+	public LivroOutput entityToOutput(Livro livro) {
+		LivroOutput output = new LivroOutput(livro);
+		return output;
 	}
 
 

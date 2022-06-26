@@ -22,4 +22,9 @@ public class AutorService {
 		return autor;
 	}
 
+	public AutorOutput entityToOutput(Autor autor) {
+		AutorOutput output = new AutorOutput(autor);
+		return output;
+	}
+
 }
