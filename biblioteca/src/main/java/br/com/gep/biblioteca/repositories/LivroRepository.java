@@ -1,13 +1,14 @@
 package br.com.gep.biblioteca.repositories;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.gep.biblioteca.models.Livro;
+import br.com.gep.biblioteca.entities.AutorEntity;
+import br.com.gep.biblioteca.entities.LivroEntity;
 
-public interface LivroRepository extends JpaRepository<Livro, Long> {
+public interface LivroRepository extends JpaRepository<LivroEntity, Long> {
 
-	List<Livro> findByAutoresId(Long id);
+	Page<LivroEntity> findByAutores(AutorEntity autorEncontrado, Pageable paginacao);
 
 }

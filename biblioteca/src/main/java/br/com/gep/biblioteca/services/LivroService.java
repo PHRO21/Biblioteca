@@ -2,46 +2,61 @@ package br.com.gep.biblioteca.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.com.gep.biblioteca.inputs.LivroInput;
-import br.com.gep.biblioteca.models.Autor;
-import br.com.gep.biblioteca.models.Livro;
-import br.com.gep.biblioteca.outputs.LivroOutput;
-import br.com.gep.biblioteca.repositories.AutorRepository;
+import br.com.gep.biblioteca.dtos.inputs.LivroInput;
+import br.com.gep.biblioteca.entities.AutorEntity;
+import br.com.gep.biblioteca.entities.LivroEntity;
+import br.com.gep.biblioteca.repositories.LivroRepository;
 
 @Service
 public class LivroService {
 	
 	@Autowired
-	private AutorRepository autorRepository;
+	private LivroRepository livroRepository;
+	
+	@Autowired
+	private AutorService autorService;
 
-	public List<LivroOutput> converterListaToOutput(List<Livro> livros){
-		return livros.stream().map(LivroOutput::new).collect(Collectors.toList());
+	public void cria(LivroEntity livroCriado) {
+		livroRepository.save(livroCriado);
 	}
 
-	public Livro coverterInput(LivroInput livroInput) {
-		Livro livro = new Livro(livroInput.getTitulo(), livroInput.getAnoLancamento(), converteIdAutores(livroInput.getIdsAutores()));
-		return livro;
+	public LivroEntity buscaPeloId(Long id) {
+		
+		return livroRepository.findById(id).get();
+	}
+
+	public LivroEntity altera(LivroEntity livroLocalizado) {
+		return livroRepository.save(livroLocalizado);
+	}
+
+	public Page<LivroEntity> buscaPorAutor(AutorEntity autorEncontrado, Pageable paginacao) {
+		
+		return livroRepository.findByAutores(autorEncontrado, paginacao);
 	}
 	
-	public List<Autor> converteIdAutores(List<Long> idsAutores) {
-		List<Autor> autores = new ArrayList<>();
-		
-		for (Long id : idsAutores) {
-			Autor autorEncontrado = autorRepository.findById(id).get();
-			autores.add(autorEncontrado);
+	public void converteIdsAutorParaAutores(LivroInput livroInput, LivroEntity livroEntity) {
+		List<AutorEntity> autores = new ArrayList<>();
+		for (Long idAutor : livroInput.getIdsAutores()) {
+			AutorEntity autor = autorService.buscaPeloId(idAutor);
+			autores.add(autor);
 		}
-		return autores;
+		livroEntity.setAutores(autores);
 	}
 
-	public LivroOutput entityToOutput(Livro livro) {
-		LivroOutput output = new LivroOutput(livro);
-		return output;
+	public Page<LivroEntity> listaTodos(Pageable paginacao) {
+		return livroRepository.findAll(paginacao);
 	}
+
+	public void deletar(Long id) {
+		livroRepository.deleteById(id);
+	}
+
 
 
 }

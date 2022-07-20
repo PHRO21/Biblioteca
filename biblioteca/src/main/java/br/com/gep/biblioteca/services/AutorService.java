@@ -1,30 +1,35 @@
 package br.com.gep.biblioteca.services;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.com.gep.biblioteca.inputs.AutorInput;
-import br.com.gep.biblioteca.models.Autor;
-import br.com.gep.biblioteca.outputs.AutorOutput;
+import br.com.gep.biblioteca.entities.AutorEntity;
+import br.com.gep.biblioteca.repositories.AutorRepository;
 
 @Service
 public class AutorService {
-	
-	public List<AutorOutput> converterLista(List<Autor> autores){
-		return autores.stream().map(AutorOutput::new).collect(Collectors.toList());
+
+	@Autowired
+	private AutorRepository autorRepository;
+
+	public void cria(AutorEntity autorCriado) {
+		autorRepository.save(autorCriado);
 	}
 
-	public Autor coverterInput(AutorInput autorInput) {
-		Autor autor = new Autor(autorInput.getNome(), autorInput.getBiografia());
-		
-		return autor;
+	public Page<AutorEntity> listaTodos(Pageable paginacao) {
+		Page<AutorEntity> autores = autorRepository.findAll(paginacao);
+		return autores;
 	}
 
-	public AutorOutput entityToOutput(Autor autor) {
-		AutorOutput output = new AutorOutput(autor);
-		return output;
+	public AutorEntity buscaPeloId(Long id) {
+		AutorEntity autorEncontrado = autorRepository.findById(id).get();
+		return autorEncontrado;
+	}
+
+	public AutorEntity atualiza(AutorEntity autorEncontrado) {
+		return autorRepository.save(autorEncontrado);
 	}
 
 }
