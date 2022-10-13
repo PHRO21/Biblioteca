@@ -29,7 +29,7 @@ public class AutorConvert {
 		return model.map(autorInput, AutorEntity.class);
 	}
 
-	public void copyDataInputToEntity(AutorInput autorInput, AutorInput autorEntity) {
+	public void copyInputToEntity(AutorInput autorInput, AutorEntity autorEntity) {
 		model.map(autorInput, autorEntity);
 	}
 

@@ -17,7 +17,7 @@ import lombok.Setter;
 public class LivroInput {
 
 	@NotEmpty(message = "O campo Título é obrigatório!")
-	@Length(message = "O campo Ano de Lançamento deve ter no 4 dígitos!", min = 1, max = 200)
+	@Length(message = "O campo Titulo deve ter no máximo 200 caracteres!", min = 1, max = 200)
 	private String titulo;
 
 	@NotNull(message = "O campo Ano de Lançamento é obrigatório!")

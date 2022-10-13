@@ -29,7 +29,7 @@ public class LivroConvert {
 		return model.map(livroInput, LivroEntity.class);
 	}
 
-	public void copyDataInputToEntity(LivroInput livroInput, LivroEntity livroEntity) {
+	public void copyInputToEntity(LivroInput livroInput, LivroEntity livroEntity) {
 		model.map(livroInput, livroEntity);
 	}
 

@@ -33,19 +33,6 @@ public class AutorService {
 
 	@Transactional
 	public AutorEntity alterar(AutorEntity autor) {
-
-		if (autor.getId() == null || autor.getId() <= 0) {
-			throw new BadRequestBussinessException("O campo Id é obrigatório para alterar um autor!");
-		}
-
-		boolean autorExistente = this.existeAutorPeloNomeQueNaoSouEu(autor.getNome(), autor.getId());
-
-		if (autorExistente) {
-			throw new BadRequestBussinessException("Autor existente");
-		}
-
-		this.buscaPeloId(autor.getId());
-
 		return autorRepository.save(autor);
 	}
 

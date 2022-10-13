@@ -1,3 +1,7 @@
-#Sistema de exemplo de biblioteca
+# Sistema de exemplo de biblioteca
 
-Teste do jefferson
+### Projeto construído com:
+ - Java 17
+ - Spring Boot
+ - MySql
+ - Hibernate / JPA
